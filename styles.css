@@ -1,0 +1,190 @@
+/* ─── CSS VARIABLES ────────────────────────────────────────── */
+:root {
+    --color-bg-primary: #0a0a0a;
+    --color-bg-secondary: #1f1f1f;
+    --color-bg-tertiary: #3a3a3a;
+    --color-bg-modal-track: #1a1a1a;
+    --color-bg-modal-thumb: #4a4a4a;
+    --color-bg-modal-thumb-hover: #6a6a6a;
+    --color-backdrop: rgba(0, 0, 0, 0.85);
+    --color-accent-glow: rgba(229, 9, 20, 0.5);
+}
+
+/* ─── BASE & RESET ─────────────────────────────────────────── */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg-primary);
+}
+
+/* ─── SCROLLBAR HIDING ─────────────────────────────────────── */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* ─── MOVIE CARD HOVER EFFECTS ─────────────────────────────── */
+.movie-card:hover .movie-overlay {
+    opacity: 1;
+}
+
+.movie-card:hover img {
+    transform: scale(1.08);
+}
+
+/* ─── HERO GRADIENT ────────────────────────────────────────── */
+.hero-gradient {
+    background: linear-gradient(to top,
+            var(--color-bg-primary) 0%,
+            transparent 50%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* ─── MODAL BACKDROP ───────────────────────────────────────── */
+.modal-backdrop {
+    background: var(--color-backdrop);
+    backdrop-filter: blur(8px);
+}
+
+/* ─── TEXT GLOW EFFECT ─────────────────────────────────────── */
+.text-glow {
+    text-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+/* ─── LINE CLAMP ───────────────────────────────────────────── */
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ─── CUSTOM HORIZONTAL SCROLLBARS (CAST & GENRE) ──────────── */
+.cast-scroll::-webkit-scrollbar,
+.genre-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.cast-scroll::-webkit-scrollbar-track,
+.genre-scroll::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: 3px;
+}
+
+.cast-scroll::-webkit-scrollbar-thumb,
+.genre-scroll::-webkit-scrollbar-thumb {
+    background: var(--color-bg-tertiary);
+    border-radius: 3px;
+}
+
+/* ─── VIDEO PLAYER CONTAINER ───────────────────────────────── */
+.video-player-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Fallback for browsers without aspect-ratio support */
+@supports not (aspect-ratio: 16 / 9) {
+    .video-player-wrapper {
+        height: 0;
+        padding-bottom: 56.25%;
+    }
+}
+
+/* Video element core structure */
+.video-player-wrapper video,
+.video-player-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    object-fit: contain;
+}
+
+/* Mobile landscape: fill the screen height */
+@media (max-height: 450px) and (orientation: landscape) {
+    .video-player-wrapper {
+        max-height: 90vh;
+    }
+}
+
+/* ─── CUSTOM SCROLLBAR FOR MODAL ───────────────────────────── */
+.modal-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+    background: var(--color-bg-modal-track);
+    border-radius: 4px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+    background: var(--color-bg-modal-thumb);
+    border-radius: 4px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--color-bg-modal-thumb-hover);
+}
+
+/* ─── PLYR.JS STYLING ENHANCEMENTS ─────────────────────────── */
+:root {
+    --plyr-color-main: #e50914;
+    /* Netflix Red Accent */
+    --plyr-video-background: var(--color-bg-primary);
+    --plyr-control-radius: 6px;
+    --plyr-font-family: 'Inter', sans-serif;
+    --plyr-tooltip-background: rgba(0, 0, 0, 0.85);
+    --plyr-tooltip-color: #ffffff;
+    --plyr-control-icon-size: 18px;
+    --plyr-range-track-height: 5px;
+}
+
+.plyr {
+    width: 100%;
+    height: 100%;
+}
+
+.plyr__controls {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%) !important;
+    padding: 20px 15px 10px !important;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+/* Hover effects on buttons */
+.plyr--video .plyr__control.plyr__tab-focus,
+.plyr--video .plyr__control:hover,
+.plyr--video .plyr__control[aria-expanded='true'] {
+    background: var(--plyr-color-main) !important;
+    color: #fff !important;
+}
+
+/* Center Large Play Button Custom Glow */
+.plyr__control--overlaid {
+    background: rgba(229, 9, 20, 0.8) !important;
+    border-radius: 50% !important;
+    padding: 18px !important;
+    box-shadow: 0 0 25px var(--color-accent-glow);
+    transition: transform 0.2s ease, background 0.2s ease !important;
+}
+
+.plyr__control--overlaid:hover {
+    transform: scale(1.15);
+    background: var(--plyr-color-main) !important;
+}
+
+/* Progress bar styling */
+.plyr__progress__container input[type='range'] {
+    cursor: pointer;
+}
