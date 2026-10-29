@@ -1,5 +1,5 @@
 const { useState, useEffect, useRef, useCallback, useMemo, memo } = React;
-const moviesData = [
+const _baseMoviesData = [
   {
     id: 1,
     title: "Spider-Man: Brand New Day",
@@ -126,7 +126,7 @@ const moviesData = [
     popular: true,
     topRated: true,
     category: "Crime",
-    video: "aHR0cHM6Ly9vay5ydS92aWRlby8xNTY0NzI0MDIyNzM4MQ==",
+    video: "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvOTQ3NTE2NDFhMjJiYjZlNDY5NGFhOWIxY2I2YzYyNWYvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4P3Rva2VuPWV5SjBlWEJsZVpJNkltSkhhVzFwZEhVaU9pSTZJakl3TXpFd05TSXNJbUZ1WkNJNkltVjRlWEJsY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJblJwYTJsaGN5STZJbk5sY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc3B6UFJLNFhGbExTUnhFaVFaV0w4Um5yU3Vwb1BCUzFWYXhTb1E0N1k0QnJ5NTFEUExaVmtTZk5CanY2LVNUTVNmb1pQdWRXaWgtNHdKQmoySmUydFFmcGxhdGZvcm09d2VibW9iaWxl",
   },
   {
     id: 6,
@@ -390,7 +390,7 @@ const moviesData = [
     popular: true,
     topRated: false,
     category: "Action",
-    video: "aHR0cHM6Ly9vay5ydS92aWRlby8xNTY1MjMzNTE5MjYyOQ==",
+    video: "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvZDQzMjI2NGE3MzM0Yjc2N2RmYjM0MDk4YWQ5YWNkMGYvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4P3Rva2VuPWV5SjBlWEJsZVpJNkltSkhhVzFwZEhVaU9pSTZJakl3TXpFd05TSXNJbUZ1WkNJNkltVjRlWEJsY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc3Bua29XVGNaUGtvdE1WZUU1TWg5NkhrMk1zMWQ2YVEyR05acGlzdVA3NXVfOGJRcDZ3TjdMNVYzVU1KVDB4MjBhUV9ZVW5IVnJGc0VzMjdyNnEzdlEmcGxhdGZvcm09d2VibW9iaWxl",
   },
   {
     id: 17,
@@ -417,7 +417,7 @@ const moviesData = [
     popular: true,
     topRated: true,
     category: "Action",
-    video: "aHR0cHM6Ly9vay5ydS92aWRlby8xNTY1MzMyNTE3OTQ0NQ==",
+    video: "aHR0cHM6Ly8yNGhtb3ZpZS5zaXRlL2VtYmVkLnBocD9pZD00NSZrZXk9Zjk1MTJjYjgyZmFlMTMwNGEwMmRlZGRjZjdhZjdiYTE2YmZhZjczMQ==",
   },
   {
     "id": 18,
@@ -537,6 +537,50 @@ const moviesData = [
   },
   {
     "id": 23,
+    "title": "Sisu",
+    "year": 2022,
+    "rating": 7.9,
+    "genre": "Action, War, Thriller",
+    "backdrop": "https://th.bing.com/th/id/OIP.FxEgvZAvRE9GPtxXW2HQ9gHaLv?w=132&h=187&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+    "poster": "https://th.bing.com/th/id/OIP.FxEgvZAvRE9GPtxXW2HQ9gHaLv?w=132&h=187&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+    "synopsis": "Fearsome monsters Godzilla and King Kong square off in an epic battle for the ages, while humanity looks to wipe out both creatures and take back the planet once and for all.",
+    "runtime": "113 min",
+    "director": "Adam Wingard",
+    "cast": [
+      "Alexander Skarsgård",
+      "Millie Bobby Brown",
+      "Rebecca Hall",
+      "Brian Tyree Henry"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvYmExYWRlMDkzZGU2ZjJmNzRlYThiYTEwNjcxZDkzMDAvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4P3Rva2VuPWV5SjBlWEJsZVpJNkltSkhhVzFwZEhVaU9pSTZJakl3TXpFd05TSXNJbUZ1WkNJNkltVjRlWEJsY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc3BsdGFmbW92dFJuVlMyRll5M0F5RUhfVEo0dG9qLWVYNml3a1k1T1FqV1hyLUljMktlMWhvS1A2cmdBa1FWS2c3TTJjU2xYUzFqRXZMT1FOeUhtTVNRJnBsYXRmb3JtPXdlYm1vYmlsZQ=="
+  },
+  {
+    "id": 24,
+    "title": "Minions & Monsters",
+    "year": 2026,
+    "rating": 7.5,
+    "genre": "Animation, Comedy, Family",
+    "backdrop": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Qq1M7baef59bvxbS6zmRywgZpGS03P7jNPpBDxzREA&s=10",
+    "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Qq1M7baef59bvxbS6zmRywgZpGS03P7jNPpBDxzREA&s=10",
+    "synopsis": "The yellow mischief-makers find themselves in hilarious chaos when they accidentally stumble into a hidden world of friendly monsters.",
+    "runtime": "90 min",
+    "director": "Pierre Coffin",
+    "cast": [
+      "Pierre Coffin",
+      "Steve Carell"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Animation",
+    "video": "aHR0cHM6Ly92b2Qtbm9ybWFsLWdsb2JhbC1jZG4tejAyLnNvb3BsaXZlLmNvbS9zcGt0L3NhdmUvYWZyZWVjYS9zdGF0aW9uLzIwMjYvMDgxMS8xOC8xNzg2NDQwMTY1NDg4Njc2Lm1wNC9tYW5pZmVzdC5tM3U4"
+  },
+  {
+    "id": 25,
     "title": "Godzilla vs. Kong",
     "year": 2021,
     "rating": 6.3,
@@ -556,10 +600,554 @@ const moviesData = [
     "popular": true,
     "topRated": false,
     "category": "Action",
-    "video": "aHR0cHM6Ly9nZW8uZGFpbHltb3Rpb24uY29tL3BsYXllci5odG1sP3ZpZGVvPWs2VGVkaHcyRXJmbnIxSnBQbFE="
-  }
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvYzFlZjk4MjE5OTQ2Y2RhMTc3MDMzMGQ0YmM0NzhlODYvbWFuaWZlc3RfaDI2NF83MjBwLm0zdTg/dG9rZW49ZXlKMGLEJsZVpJNkltSkhhVzFwZEhVaU9pSTZJakl3TXpFd05TSXNJbUZ1WkNJNkltVjRlWEJsY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJblJwYTJsaGN5STZJbk5sY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc3BMcCBzdUZUOFMycVpITmVZYVdRMW9mY2RMcUJ5SllZTTlPVXhXVk5XSWt5YTAycm5US3F0ajlnM3VCWUZ2ZE1qQW1ydXpBdUtGQ2lWZnRxQlEmcGxhdGZvcm09d2VibW9iaWxl"
+  },
+  {
+    id: 26,
+    title: "ញ្ញាណមរណៈ វគ្គ2",
+    year: 2024,
+    rating: 5.7,
+    genre: "Horror",
+    backdrop:
+      "https://cdn-sg.sf-api.net/images/2oKtJ7W0vJ6X.jpg",
+    poster:
+      "https://cdn-sg.sf-api.net/images/2oKtJ7W0vJ6X.jpg",
+    synopsis:
+      "After discovering her biological father is a spiritual healer with a dark legacy, Ainun delves into his mysterious teachings, only to uncover terrifying rituals and dangerous dark magic lurking within.",
+    runtime: "102 min",
+    director: "Bobby Prasetyo",
+    cast: [
+      "Yasmin Napper",
+      "Arbani Yasiz",
+      "Ria Ricis",
+      "Whani Darmawan",
+      "Hana Saraswati",
+    ],
+    trending: true,
+    popular: true,
+    topRated: false,
+    category: "Horror",
+    video:
+      "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvZTQ4YzkxYTEyMmE4ZjI5MWFiODYyMzk4NTdjNDRiNDIvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4P3Rva2VuPWV5SjBlWEJsZVpJNkltSkhhVzFwZEhVaU9pSTZJakl3TXpFd05TSXNJbUZ1WkNJNkltVjRlWEJsY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJblJwYTJsaGN5STZJbk5sY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc3BVTkt1bU52RUJnNzd1N09zWXFHRlB6TXVGOE11blBzU2xSaVpkbDdoOEFlM1N6S2ZkSkw4OWFucFl1TkhIeHZlLUxPQXQ2RjRJSDZLVFJCb2lPVlZIZyZwcmF0Zm9ybT13ZWJtb2JpbGU=",
+  },
+  {
+    "id": 27,
+    "title": "How to Train Your Dragon",
+    "year": 2025,
+    "rating": 8.1,
+    "genre": "Action, Adventure, Fantasy",
+    "backdrop": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLjydWjP-PmczOkmj2k5EsvAxfT_i-7U0RdnWDaEBKTg&s=10",
+    "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLjydWjP-PmczOkmj2k5EsvAxfT_i-7U0RdnWDaEBKTg&s=10",
+    "synopsis": "On the rugged isle of Berk, Hiccup, an inventive Viking teen, defies generations of tradition when he befriends Toothless, a feared Night Fury dragon. Together, they must overcome prejudice to unite their worlds.",
+    "runtime": "125 min",
+    "director": "Dean DeBlois",
+    "cast": [
+      "Mason Thames",
+      "Nico Parker",
+      "Gerard Butler",
+      "Nick Frost"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvMmNkY2ViNGNkODJhZDgwMjVjMDNjOTA3ZGE2ZWJkNmMvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4P3Rva2VuPWV5SjBlWEJsZVpJNkltSkhhVzFwZEhVaU9pSTZJakl3TXpFd05TSXNJbUZ1WkNJNkltVjRlWEJsY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJblJwYTJsaGN5STZJbk5sY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc3BMYzFrcTZmM3VrOExYSlZpWEloMU1kN3AzTk5SNjl1QlY4eWVTTkdBdXlOR1FZcWt2ODY4R1Y0N1dpdzlnSTRLU01oNEpQOTRxQzVlcUNoUm91c3cmcGxhdGZvcm09d2VibW9iaWxl"
+  },
+  {
+    "id": 28,
+    "title": "ដុកទ័ររោគចិត្ត",
+    "year": 2025,
+    "rating": 8.1,
+    "genre": "Action, Adventure, Fantasy",
+    "backdrop": "https://cdn-sg.sf-api.net/images/CiKV4Fz4H0HS.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/CiKV4Fz4H0HS.jpg",
+    "synopsis": "On the rugged isle of Berk, Hiccup, an inventive Viking teen, defies generations of tradition when he befriends Toothless, a feared Night Fury dragon. Together, they must overcome prejudice to unite their worlds.",
+    "runtime": "125 min",
+    "director": "Dean DeBlois",
+    "cast": [
+      "Mason Thames",
+      "Nico Parker",
+      "Gerard Butler",
+      "Nick Frost"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvZDkzYjMyN2JlODg5ZDc0MzBiNzU2ZjdkZWUxYWM3MDYvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4P3Rva2VuPWV5SjBlWEJsZVpJNkltSkhhVzFwZEhVaU9pSTZJakl3TXpFd05TSXNJbUZ1WkNJNkltVjRlWEJsY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJblJwYTJsaGN5STZJbk5sY25WdVpYTWlPaUpvZFhObGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc0luQjBhRzluWVhSbGNpSTZJbnRsYzNSbGRGOHZaMlZ5WlhKZmNtVnlaWE5vYnlJc0ltTnZaV1JsYm1OcGJtY2lPaUpuZFhKbGMzUWlPaUpwZFhSbGMzTnBiMjV2Y3lJc0ltTnZZWEowYVc1bkxtRnlaQ0lzSW5OMFlXUmxiblJwYm1jaU9pSk1VekUwTmpZMk1URTBNekl4TlRNMU5USTBOelUzTURjME56STFNekExTmkwdk1qb3hNakF1TWpFMU1USXlNekV6TmpZc3BCVkM4UVRkVnV0V1RuQ2pDenpGbXRucDdlV2NxaDU4RVhPX29NZTJQbXplN3d3ZE50UE9BUERhZEpzV204RkpFSUJCZ2N0eFR6WkU0eFh3cF9vQnNBJnBsYXRmb3JtPXdlYm1vYmlsZQ=="
+  },
+  {
+    "id": 29,
+    "title": "ឃាតកររោគចិត្ត ដូរប្រពន្ធគ្នា",
+    "year": 2025,
+    "rating": 7.2,
+    "genre": "Thriller, Drama, Crime",
+    "backdrop": "https://cdn-sg.sf-api.net/images/PvrfnXDELT9b.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/PvrfnXDELT9b.jpg",
+    "synopsis": "A tense psychological thriller following a dangerous game of deception, dark secrets, and a twisted lifestyle swap involving a ruthless killer.",
+    "runtime": "105 min",
+    "director": "Unknown",
+    "cast": [
+      "Actor 1",
+      "Actor 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Thriller",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvTjg1a05mSm9McmM0L2luZGV4LTEwODBwLm0zdTg="
+  },
+  {
+    "id": 30,
+    "title": "ភូមិអាប",
+    "year": 2024,
+    "rating": 7.0,
+    "genre": "Horror, Comedy",
+    "backdrop": "https://cdn-sg.sf-api.net/images/1gYIOSnWslCX.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/1gYIOSnWslCX.jpg",
+    "synopsis": "A mysterious village haunted by Krasue (Ahp) spirits, where villagers face terrifying encounters and supernatural occurrences in the dark.",
+    "runtime": "90 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Horror",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvNzFlZTEzYzIxMjMzZDliOTZmMTFkZGZmOGRiNjZiYTYvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 31,
+    "title": "Ne Zha",
+    "year": 2019,
+    "rating": 7.4,
+    "genre": "Animation, Action, Fantasy, Adventure",
+    "backdrop": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSMvVYYHNm9ot32aBiNgZxRwaLbt5g6Vtom4tiAEa3Xw&s=10",
+    "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSMvVYYHNm9ot32aBiNgZxRwaLbt5g6Vtom4tiAEa3Xw&s=10",
+    "synopsis": "Born with unique powers, a young boy named Ne Zha finds himself feared and hated by those around him. Destined by prophecy to bring destruction to the world, he must choose between good and evil to break the chains of fate and become the hero.",
+    "runtime": "110 min",
+    "director": "Jiaozi",
+    "cast": [
+      "Yanting Lü",
+      "Joseph",
+      "Mo Han",
+      "Hao Chen"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": true,
+    "category": "Animation",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvM2FjOTk2ZTJlMjJlOWUxMDYwYzFhNjBmMWE4YTM1OTIvbWFuaWZlc3QtMTA4MHAubTN1OA=="
+  },
+  {
+    "id": 32,
+    "title": "The King’s Warden",
+    "year": 2026,
+    "rating": 7.5,
+    "genre": "Action, Historical, Drama",
+    "backdrop": "https://khdiamond.net/wp-content/uploads/2026/06/Poster-1-scaled.jpg",
+    "poster": "https://khdiamond.net/wp-content/uploads/2026/06/Poster-1-scaled.jpg",
+    "synopsis": "A elite warden faces deadly political intrigue and betrayal while defending the kingdom from internal revolts and external threats.",
+    "runtime": "115 min",
+    "director": "Unknown",
+    "cast": [
+      "Lead Actor",
+      "Supporting Actor"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvZTViZTVkYmI1MjYyNDVlY2YxZmJkMjk3Y2QwYzM2NGEvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 33,
+    "title": "ស្នេហ៍ពណ៌ខៀវ",
+    "year": 2026,
+    "rating": 7.3,
+    "genre": "Romance, Drama",
+    "backdrop": "https://cdn-sg.sf-api.net/images/pZ0dZVyCX2MO.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/pZ0dZVyCX2MO.jpg",
+    "synopsis": "A touching romantic drama exploring love, heartbreak, and unexpected turns of fate between two people trying to find their true happiness.",
+    "runtime": "100 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Romance",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvNWVjM2E4MjdhYmUxNTUwMjQzNzZmM2ZlMjMxZmI5ODQvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 34,
+    "title": "Raya and the Last Dragon",
+    "year": 2021,
+    "rating": 7.3,
+    "genre": "Animation, Action, Adventure, Family, Fantasy",
+    "backdrop": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd-UeLvVgnIYWVoJKXnhDffJHt9QD9xJB2oB9miCR2Wg&s=10",
+    "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd-UeLvVgnIYWVoJKXnhDffJHt9QD9xJB2oB9miCR2Wg&s=10",
+    "synopsis": "Long ago, in the fantasy world of Kumandra, humans and dragons lived together in harmony. Next, when an evil force threatened the land, the dragons sacrificed themselves to save humanity. Now, 500 years later, that same evil has returned, and it's up to a lone warrior, Raya, to track down the legendary last dragon to restore the fractured land and its divided people.",
+    "runtime": "107 min",
+    "director": "Don Hall, Carlos López Estrada",
+    "cast": [
+      "Kelly Marie Tran",
+      "Awkwafina",
+      "Gemma Chan",
+      "Daniel Dae Kim",
+      "Benedict Wong"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": true,
+    "category": "Animation",
+    "video": "aHR0cHM6Ly9zdHJlYW0ua2hhbmltZS5jby93L2hsc3BsYXlsaXN0LzE2MzIwL2RFN2FjYkFhM08ySWRVMC8xMDgw"
+  },
+  {
+    "id": 35,
+    "title": "ទំនុកស្នេហ៍អាថ៌កំបាំង",
+    "year": 2026,
+    "rating": 7.1,
+    "genre": "Romance, Drama, Mystery",
+    "backdrop": "https://cdn-sg.sf-api.net/images/b9wQstCKtjQ2.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/b9wQstCKtjQ2.jpg",
+    "synopsis": "A romantic mystery drama unraveling deep secrets, hidden pasts, and complicated relationships between characters bound by fate.",
+    "runtime": "95 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Romance",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvNDE1OThjZGZlODU2OTQxMGUxMzhiMzY4ZTk5NmMxMzMvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 36,
+    "title": "Vina: Before 7 Days",
+    "year": 2024,
+    "rating": 6.8,
+    "genre": "Horror, Crime, Drama",
+    "backdrop": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJCsIfYfg0d9nWIR3piaXE8SWPfuu_LQDXjWaGJ4z2iQ&s=10",
+    "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJCsIfYfg0d9nWIR3piaXE8SWPfuu_LQDXjWaGJ4z2iQ&s=10",
+    "synopsis": "Based on a tragic true story, the spirit of a murdered young girl possesses her friend's body within seven days of her death to reveal the horrifying truth behind her assault and murder by a violent motor gang.",
+    "runtime": "100 min",
+    "director": "Anggy Umbara",
+    "cast": [
+      "Nayla Denny Purnama",
+      "Lydia Kandou",
+      "Gisellma Firmansyah",
+      "Delia Husein"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Horror",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvMTMyM2Q2NDNjM2E5YjBiMGQ3ZWY3ZTRmOGVlMmQ2NDUvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 37,
+    "title": "Salmokji: Whispering Water",
+    "year": 2026,
+    "rating": 7.2,
+    "genre": "Horror, Mystery, Thriller",
+    "backdrop": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAzuUL1_W2sFb-KGB6IjBrDV_3y8TrTnkW9gFH43Et5bbpHYJoNUI59tmh&s=10",
+    "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAzuUL1_W2sFb-KGB6IjBrDV_3y8TrTnkW9gFH43Et5bbpHYJoNUI59tmh&s=10",
+    "synopsis": "A road-view survey crew heads to a remote reservoir to reshoot footage where an unidentified figure was previously spotted. Deep within the dark waters, they encounter a terrifying entity and mysterious events that endanger their lives.",
+    "runtime": "95 min",
+    "director": "Lee Sang-min",
+    "cast": [
+      "Kim Hye-yoon",
+      "Lee Jong-won",
+      "Kim Jun-han",
+      "Jang Da-ah"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Horror",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvNWFkOGE4OGMyYzFmNDY4NTZkNjdlMzBhMzY4ODY2OTgvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 38,
+    "title": "ឈីងចាំង វគ្គបេសកកម្មរកកំណប់",
+    "year": 2026,
+    "rating": 7.3,
+    "genre": "Action, Adventure, Comedy",
+    "backdrop": "https://cdn-sg.sf-api.net/images/TqAIpm3HjzzP.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/TqAIpm3HjzzP.jpg",
+    "synopsis": "An action-packed comedic adventure featuring Ching Chang on a dangerous treasure hunt mission filled with traps, enemies, and unexpected humor.",
+    "runtime": "95 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvZjBhOGU4MjhlN2ZkZGExODcwMmU1ZmM4MWQyMDZjZDcvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 39,
+    "title": "ខ្មោចយួរក្បាល",
+    "year": 2026,
+    "rating": 7.0,
+    "genre": "Horror, Mystery",
+    "backdrop": "https://cdn-sg.sf-api.net/images/VQKTYVQ4vncR.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/VQKTYVQ4vncR.jpg",
+    "synopsis": "A chilling Khmer horror tale about a vengeful headless spirit haunting a village, seeking justice and terrifying anyone who crosses its path in the dark.",
+    "runtime": "90 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Horror",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvZmFlMGNiOGYyZDhhNGYzY2I4OWNhOTUzZWNjMzZhMTgvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 40,
+    "title": "ចាងជឺយ៉ាបង្រាបបិសាចកញ្ជ្រោងកន្ទុយ៩",
+    "year": 2020,
+    "rating": 6.8,
+    "genre": "Animation, Action, Fantasy, Adventure",
+    "backdrop": "https://cdn-sg.sf-api.net/images/HQDHXT2hlakJ.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/HQDHXT2hlakJ.jpg",
+    "synopsis": "To earn his godhood, commander Jiang Ziya must vanquish the Nine-Tailed Fox Demon threatening mortal existence. Upon discovering the demon's fate is tied to an innocent girl, Jiang Ziya must defy the heavens to uncover the truth.",
+    "runtime": "110 min",
+    "director": "Cheng Teng, Li Wei",
+    "cast": [
+      "Zheng Xi",
+      "Yang Ning",
+      "Tumu Zhang",
+      "Yan Memei"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Animation",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvNDM4OWFlMTMzNThmZjAxZjQyOTcyNTZkODY2NWIxN2EvbWFuaWZlc3QtMTA4MHAubTN1OA=="
+  },
+  {
+    "id": 41,
+    "title": "ដែនអាថ៌កំបាំង",
+    "year": 2026,
+    "rating": 7.2,
+    "genre": "Adventure, Mystery, Fantasy",
+    "backdrop": "https://cdn-sg.sf-api.net/images/xlxxxSJ0HBLB.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/xlxxxSJ0HBLB.jpg",
+    "synopsis": "A mysterious journey into an uncharted realm filled with hidden secrets, ancient dangers, and unexpected revelations.",
+    "runtime": "95 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Adventure",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvMzQwYzUxN2VmY2RhZTRkZjM2MzVmZjI1ODM2OGM4NTEvbWFuaWZlc3RfaDI2NF83MjBwLm0zdTg="
+  },
+  {
+    "id": 42,
+    "title": "អ្នកលាងសព",
+    "year": 2024,
+    "rating": 7.4,
+    "genre": "Horror, Mystery, Thriller",
+    "backdrop": "https://cdn-sg.sf-api.net/images/IKqzxA9Q0sS7.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/IKqzxA9Q0sS7.jpg",
+    "synopsis": "A mortician responsible for bathing the deceased uncovers unsettling secrets and supernatural occurrences surrounding the corpses, leading into a terrifying web of dark curses.",
+    "runtime": "107 min",
+    "director": "Hadrah Daeng Ratu",
+    "cast": [
+      "Cinta Laura Kiehl",
+      "Iwa K",
+      "Aghniny Haque",
+      "Ibrahim Risyad"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Horror",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvOWViZTE1ODliYWM4ZGVjMjg2NzM1MmIwYTRkNWJkYTYvbWFuaWZlc3RfaDI2NF83MjBwLm0zdTg="
+  },
+  {
+    "id": 43,
+    "title": "John Wick: Chapter 2",
+    "year": 2017,
+    "rating": 7.4,
+    "genre": "Action, Crime, Thriller",
+    "backdrop": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUUkIEqL3rTC8cLtw3YgV98NqnDxV9CjN21GPwR6ZyWA&s=10",
+    "poster": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUUkIEqL3rTC8cLtw3YgV98NqnDxV9CjN21GPwR6ZyWA&s=10",
+    "synopsis": "After returning to the criminal underworld to repay a debt, John Wick discovers that a bounty has been put on his life.",
+    "runtime": "122 min",
+    "director": "Chad Stahelski",
+    "cast": [
+      "Keanu Reeves",
+      "Riccardo Scamarcio",
+      "Ian McShane",
+      "Ruby Rose",
+      "Common"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": true,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9iaWdmLmJpZ28uc2cvYXNpYV9saXZlL1Y0czcvMDluemp0Lm1wNA=="
+  },
+  {
+    "id": 44,
+    "title": "ហ៊ាម៉ាប់តាមសងសឹកឃាតកររោគចិត្ត",
+    "year": 2026,
+    "rating": 7.3,
+    "genre": "Action, Thriller, Crime",
+    "backdrop": "https://cdn-sg.sf-api.net/images/zI4FXvyumxAe.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/zI4FXvyumxAe.jpg",
+    "synopsis": "An intense action thriller detailing a ruthless quest for revenge, where a determined man hunts down a psychotic killer who destroyed everything he loved.",
+    "runtime": "98 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvU3ZiS0tKTWFQaG1jL2luZGV4LTEwODBwLm0zdTg="
+  },
+  {
+    "id": 45,
+    "title": "រាជនីគាវ",
+    "year": 2026,
+    "rating": 7.2,
+    "genre": "Drama, History, Comedy",
+    "backdrop": "https://cdn-sg.sf-api.net/images/akezia1eo4kL.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/akezia1eo4kL.jpg",
+    "synopsis": "An engaging story highlighting the journey, challenges, and humor surrounding a legendary culinary queen renowned for her famous dumplings.",
+    "runtime": "95 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Drama",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvY2QzNDllYzU2YTg5NjlkNzc3NTg4OWM4ZWI0MjBlZGYvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 46,
+    "title": "ប្រតិបត្តិការដូវ៉ាន់ដា ២",
+    "year": 2026,
+    "rating": 7.4,
+    "genre": "Action, Thriller, Crime",
+    "backdrop": "https://cdn-sg.sf-api.net/images/au2b5l1zJXmt.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/au2b5l1zJXmt.jpg",
+    "synopsis": "The high-stakes action continues in this thrilling sequel as tactical operatives embark on a dangerous covert mission to dismantle a powerful criminal network.",
+    "runtime": "100 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvOWZhOWYzYzU3Yzg0MjdlNGY0NThkZTFiOTQ0NzEwZWYvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 47,
+    "title": "គ្រោះរញ្ជួយដី",
+    "year": 2026,
+    "rating": 7.2,
+    "genre": "Action, Drama, Thriller",
+    "backdrop": "https://cdn-sg.sf-api.net/images/Sxc93Yc36w2p.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/Sxc93Yc36w2p.jpg",
+    "synopsis": "A catastrophic earthquake strikes, triggering chaos and devastation. Survivors and rescue teams must navigate collapsed infrastructure and life-threatening hazards to save trapped victims.",
+    "runtime": "105 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvZGM4ZDFjNmI3YWJmODY1OWExODIwYTY5MmE3Y2I2OWUvbWFuaWZlc3QtMTA4MHAubTN1OA=="
+  },
+  {
+    "id": 48,
+    "title": "ខ្មោចទឹក (Ma Da: The Drowning Spirit)",
+    "year": 2024,
+    "rating": 6.9,
+    "genre": "Horror, Mystery, Thriller",
+    "backdrop": "https://cdn-sg.sf-api.net/images/vwgsaJ5A4dtP.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/vwgsaJ5A4dtP.jpg",
+    "synopsis": "In the dark waters of the river, a body collector named Mrs. Le faces Ma Da—a vengeful drowning spirit—after it abducts her daughter. She must embark on a perilous race against time to rescue her child before she is trapped under the water forever.",
+    "runtime": "93 min",
+    "director": "Nguyen Huu Hoang",
+    "cast": [
+      "Viet Huong",
+      "Trung Dan",
+      "Thanh Loc"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Horror",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvZTZmNjE5MmRlYTY0ZDVjZGIzMjFiY2NmMzdkNTJjNzkvbWFuaWZlc3RfaDI2NF8xMDgwcC5tM3U4"
+  },
+  {
+    "id": 49,
+    "title": "អ្នកប្រមាញ់បិសាចក្នុងប្រាសាទគ្មានទីបញ្ចប់",
+    "year": 2026,
+    "rating": 7.1,
+    "genre": "Action, Fantasy, Adventure",
+    "backdrop": "https://cdn-sg.sf-api.net/images/Zc7DvIEQBSoO.jpg",
+    "poster": "https://cdn-sg.sf-api.net/images/Zc7DvIEQBSoO.jpg",
+    "synopsis": "A group of skilled demon hunters enters an endless, labyrinthine temple filled with deadly traps, dark magic, and ancient horrors that they must destroy to survive.",
+    "runtime": "98 min",
+    "director": "Unknown",
+    "cast": [
+      "Khmer Cast 1",
+      "Khmer Cast 2"
+    ],
+    "trending": true,
+    "popular": true,
+    "topRated": false,
+    "category": "Action",
+    "video": "aHR0cHM6Ly9zYWJheWZsaXgtbW9iaWxlLXN0cmVhbS1kM2x2cXU0LnNmLWFwaS5uZXQvNTJjYzEzNDgxN2YyMjI3MzkxNmM1ZDVkNGIwMDZlZGEvbWFuaWZlc3RfaDI2NF80ODBwLm0zdTg="
+  },
+  
+  
 
 ];
+
+let moviesData = _baseMoviesData;
+try {
+  const stored = JSON.parse(localStorage.getItem("sv_movies") || "null");
+  if (Array.isArray(stored) && stored.length) {
+    moviesData = stored;
+  } else {
+    localStorage.setItem("sv_movies", JSON.stringify(_baseMoviesData));
+  }
+} catch (e) {}
 
 const genres = [
   "All",
@@ -986,133 +1574,272 @@ const StarRating = memo(({ rating }) => {
   );
 });
 
-// ─── VIDEO PLAYER MODAL (with Plyr.js) ──────────────────────
+// ─── VIDEO PLAYER MODAL (Netflix-style Plyr.js) ─────────────
 const VideoPlayer = ({ movie, onClose }) => {
+  const videoRef = useRef(null);
+  const playerBoxRef = useRef(null);
+  const progressBarRef = useRef(null);
+  const idleTimerRef = useRef(null);
+
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [buffered, setBuffered] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const [showControls, setShowControls] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const playerElementRef = useRef(null);
-  const videoInfo = useMemo(
-    () => (movie ? getUrlInfo(movie.video) : { type: "invalid", src: "" }),
-    [movie],
-  );
+  const [hoverTime, setHoverTime] = useState(null);
+  const [hoverPos, setHoverPos] = useState(0);
 
-  // Reset loading state and handle body overflow/escape key
-  useEffect(() => {
-    setIsLoading(true);
-    document.body.style.overflow = "hidden";
-    const handleEsc = (e) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleEsc);
+  const videoInfo = useMemo(() => (movie ? getUrlInfo(movie.video) : { type: "invalid", src: "" }), [movie]);
+  const isVideo = videoInfo.type === "video" || videoInfo.src?.includes(".m3u8");
 
-    return () => {
-      document.body.style.overflow = "unset";
-      window.removeEventListener("keydown", handleEsc);
-    };
-  }, [movie, onClose]);
-
-  // Initialize and destroy Plyr instance
-  useEffect(() => {
-    let player = null;
-    // Ensure Plyr is loaded and we have an element and a valid source
-    if (window.Plyr && playerElementRef.current && videoInfo.src) {
-      player = new Plyr(playerElementRef.current, {
-        autoplay: true,
-      });
-
-      // For <video> elements, we use Plyr's events to manage loading state.
-      if (videoInfo.type === "video") {
-        player.on("ready", () => setIsLoading(false));
-        player.on("error", () => {
-          console.error("Plyr error: Video could not be loaded.");
-          setIsLoading(false); // Hide loader even on error
-        });
-      }
+  const wakeControls = useCallback(() => {
+    setShowControls(true);
+    clearTimeout(idleTimerRef.current);
+    if (isPlaying) {
+      idleTimerRef.current = setTimeout(() => setShowControls(false), 2500);
     }
+  }, [isPlaying]);
 
-    // Cleanup: destroy the Plyr instance
-    return () => {
-      player?.destroy();
+  useEffect(() => {
+    wakeControls();
+    return () => clearTimeout(idleTimerRef.current);
+  }, [wakeControls]);
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      wakeControls();
+      if (e.key === "Escape") onClose();
+      if (e.code === "Space") { e.preventDefault(); togglePlay(); }
+      if (e.key === "f") toggleFullscreen();
+      if (e.key === "m") toggleMute();
+      if (e.key === "ArrowLeft") skipTime(-10);
+      if (e.key === "ArrowRight") skipTime(10);
     };
-  }, [videoInfo]); // Re-run when the video source changes
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isPlaying, isMuted, volume]);
 
-  if (!movie) return null;
-
-  const commonPlayerProps = {
-    ref: playerElementRef,
-    className: `absolute inset-0 w-full h-full border-0 transition-opacity duration-500 ${isLoading ? "opacity-0" : "opacity-100"}`,
-    allow: "autoplay; encrypted-media; fullscreen",
-    allowFullScreen: true,
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+      setShowControls(true);
+    }
   };
 
+  const skipTime = (amt) => {
+    if (videoRef.current) videoRef.current.currentTime += amt;
+  };
+
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !isMuted;
+    setIsMuted(!isMuted);
+  };
+
+  const toggleFullscreen = () => {
+    if (!playerBoxRef.current) return;
+    if (!document.fullscreenElement) {
+      playerBoxRef.current.requestFullscreen().catch(() => { });
+    } else {
+      document.exitFullscreen().catch(() => { });
+    }
+  };
+
+  const handleSeek = (e) => {
+    if (!progressBarRef.current || !videoRef.current) return;
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const percent = Math.max(0, Math.min((e.clientX - rect.left) / rect.width, 1));
+    videoRef.current.currentTime = percent * duration;
+  };
+
+  const formatTime = (time) => {
+    if (isNaN(time) || time === null) return "0:00";
+    const m = Math.floor((time % 3600) / 60);
+    const s = Math.floor(time % 60);
+    const h = Math.floor(time / 3600);
+    const sec = s < 10 ? `0${s}` : `${s}`;
+    return h > 0 ? `${h}:${m < 10 ? `0${m}` : m}:${sec}` : `${m}:${sec}`;
+  };
+
+  const progressPercent = duration ? (currentTime / duration) * 100 : 0;
+  const bufferedPercent = duration ? (buffered / duration) * 100 : 0;
+
   return (
-    <div
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black animate-fadeIn"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6" onClick={onClose}>
+      {/* Picture 1 Floating Close Button */}
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
-        className="fixed top-3 right-3 z-[210] w-10 h-10 rounded-full bg-black/70 backdrop-blur text-white flex items-center justify-center hover:bg-red-600 transition-colors border border-white/10 shadow-lg"
-        aria-label="Close player"
+        onClick={onClose}
+        className="fixed top-5 right-5 z-[210] w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-white flex items-center justify-center transition-all"
+        title="Close (Esc)"
       >
-        <Icon name="x" size={20} />
+        <Icon name="x" size={22} />
       </button>
 
-      <div
-        className="relative w-full sm:max-w-5xl lg:max-w-6xl flex flex-col items-center justify-center px-0 sm:px-4"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="relative w-full bg-neutral-900 overflow-hidden sm:rounded-2xl sm:shadow-2xl sm:border sm:border-white/10 video-player-wrapper">
+      {/* Picture 1 Centered Window Wrapper */}
+      <div className="relative w-full max-w-5xl flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+        {/* 16:9 Video Box */}
+        <div
+          ref={playerBoxRef}
+          className={`nflx-modal-box relative w-full aspect-video bg-black rounded-xl overflow-hidden border border-white/10 shadow-2xl ${!showControls && isPlaying ? "hide-cursor" : ""}`}
+          onMouseMove={wakeControls}
+        >
+          {/* Loading Spinner */}
           {isLoading && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 z-10 gap-3">
-              <Icon name="loader" size={40} className="text-white" />
-              <span className="text-xs text-gray-400">Loading video…</span>
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 z-20 gap-3 pointer-events-none">
+              <div className="w-12 h-12 border-4 border-white/10 border-t-[#e50914] rounded-full animate-spin" />
+              <span className="text-xs text-gray-400 font-medium">Loading video…</span>
             </div>
           )}
 
-          {videoInfo.type === "video" && (
-            <video
-              {...commonPlayerProps}
-              src={videoInfo.src}
-              playsInline
-              controls
-            />
-          )}
+          {/* Media Video / Iframe */}
+          <div className="w-full h-full flex items-center justify-center" onClick={togglePlay}>
+            {isVideo && (
+              <video
+                ref={videoRef}
+                src={videoInfo.src}
+                playsInline
+                autoPlay
+                className="w-full h-full object-contain"
+                onTimeUpdate={() => {
+                  if (videoRef.current) {
+                    setCurrentTime(videoRef.current.currentTime);
+                    if (videoRef.current.buffered.length) {
+                      setBuffered(videoRef.current.buffered.end(videoRef.current.buffered.length - 1));
+                    }
+                  }
+                }}
+                onLoadedMetadata={() => {
+                  if (videoRef.current) setDuration(videoRef.current.duration);
+                  setIsLoading(false);
+                }}
+                onWaiting={() => setIsLoading(true)}
+                onPlaying={() => setIsLoading(false)}
+              />
+            )}
+            {!isVideo && (
+              <iframe
+                src={videoInfo.src}
+                className="w-full h-full border-0"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+                onLoad={() => setIsLoading(false)}
+              />
+            )}
+          </div>
 
-          {videoInfo.type === "iframe" && (
-            <iframe
-              {...commonPlayerProps}
-              src={videoInfo.src}
-              title={`Player for ${movie.title}`}
-              frameBorder="0"
-              scrolling="no"
-              onLoad={() => setIsLoading(false)}
-            />
-          )}
+          {/* Custom Netflix Controls inside the box */}
+          {isVideo && (
+            <div
+              className={`nflx-bottom-controls ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Row 1: Red Scrubber */}
+              <div
+                ref={progressBarRef}
+                className="nflx-timeline-wrap"
+                onClick={handleSeek}
+                onMouseMove={(e) => {
+                  const rect = progressBarRef.current.getBoundingClientRect();
+                  setHoverPos(e.clientX - rect.left);
+                  setHoverTime(((e.clientX - rect.left) / rect.width) * duration);
+                }}
+                onMouseLeave={() => setHoverTime(null)}
+              >
+                {hoverTime !== null && (
+                  <div className="nflx-scrub-tooltip" style={{ left: `${hoverPos}px` }}>
+                    {formatTime(hoverTime)}
+                  </div>
+                )}
+                <div className="nflx-timeline-rail">
+                  <div className="nflx-timeline-buffered" style={{ width: `${bufferedPercent}%` }} />
+                  <div className="nflx-timeline-played" style={{ width: `${progressPercent}%` }} />
+                  <div className="nflx-timeline-thumb" style={{ left: `${progressPercent}%` }} />
+                </div>
+              </div>
 
-          {videoInfo.type === "invalid" && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black text-red-500">
-              Invalid video source.
+              {/* Row 2: Actions */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <button onClick={togglePlay} className="nflx-btn">
+                    {isPlaying ? (
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+                    ) : (
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                    )}
+                  </button>
+
+                  <button onClick={() => skipTime(-10)} className="nflx-btn nflx-btn-badge" title="Rewind 10s">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 4v6h6M3.51 15a9 9 0 1 0 2.13-9.36L1 10" /></svg>
+                    <span className="nflx-badge-text">10</span>
+                  </button>
+
+                  <button onClick={() => skipTime(10)} className="nflx-btn nflx-btn-badge" title="Forward 10s">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 4v6h-6M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
+                    <span className="nflx-badge-text">10</span>
+                  </button>
+
+                  <div className="nflx-volume-group">
+                    <button onClick={toggleMute} className="nflx-btn">
+                      {isMuted ? (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="1" y1="1" x2="23" y2="23" /><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" /></svg>
+                      ) : (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" /></svg>
+                      )}
+                    </button>
+                    <div className="nflx-slider-container">
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.05"
+                        value={isMuted ? 0 : volume}
+                        onChange={(e) => {
+                          const val = parseFloat(e.target.value);
+                          setVolume(val);
+                          videoRef.current.volume = val;
+                          setIsMuted(val === 0);
+                        }}
+                        className="nflx-volume-range"
+                      />
+                    </div>
+                  </div>
+
+                  <span className="nflx-time-text">{formatTime(currentTime)} / {formatTime(duration)}</span>
+                </div>
+
+                <button onClick={toggleFullscreen} className="nflx-btn" title="Fullscreen">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" /></svg>
+                </button>
+              </div>
             </div>
           )}
         </div>
 
-        <div className="mt-3 sm:mt-4 px-4 sm:px-0 pb-4 sm:pb-0 w-full flex items-start justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <h3 className="text-base sm:text-2xl font-bold text-white truncate">
-              {movie.title}
-            </h3>
-            <p className="text-xs sm:text-sm text-gray-400 mt-0.5">
-              {movie.year} &middot; {movie.genre} &middot; {movie.runtime}
-            </p>
+        {/* Picture 1 Bottom Info Text */}
+        <div className="mt-4 px-1 w-full">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-red-500 font-bold">Now playing</span>
+            <span className="h-1 w-1 rounded-full bg-gray-600" />
+            <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500">StreamVault</span>
           </div>
+          <h3 className="text-lg sm:text-2xl font-bold text-white truncate">{movie.title}</h3>
+          <p className="text-xs sm:text-sm text-gray-400 mt-0.5">
+            {movie.year} &middot; {movie.genre} &middot; {movie.runtime}
+          </p>
         </div>
       </div>
     </div>
   );
 };
+
 // ─── NAVBAR COMPONENT ───────────────────────────────────────
 const Navbar = ({
   searchQuery,
@@ -1121,9 +1848,25 @@ const Navbar = ({
   activeTab,
   setActiveTab,
   scrollY,
+  user,
+  onSignIn,
+  onSignOut,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const accountRef = useRef(null);
+
+  useEffect(() => {
+    if (!isAccountOpen) return;
+    const closeOnOutsideClick = (event) => {
+      if (accountRef.current && !accountRef.current.contains(event.target)) {
+        setIsAccountOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    return () => document.removeEventListener("mousedown", closeOnOutsideClick);
+  }, [isAccountOpen]);
 
   const navLinks = [
     { id: "home", label: "Home" },
@@ -1200,9 +1943,61 @@ const Navbar = ({
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-accent-red rounded-full"></span>
             </button>
 
-            <button className="w-9 h-9 rounded-full bg-gradient-to-br from-accent-purple to-accent-pink flex items-center justify-center text-sm font-bold hover:ring-2 hover:ring-white/30 transition-all">
-              <Icon name="user" size={18} />
-            </button>
+            {user ? (
+              <div className="relative" ref={accountRef}>
+                <button
+                  onClick={() => setIsAccountOpen((open) => !open)}
+                  title={user.name || user.username}
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-accent-purple to-accent-pink flex items-center justify-center text-sm font-bold hover:ring-2 hover:ring-white/30 transition-all"
+                >
+                  {(user.name || user.username).charAt(0).toUpperCase()}
+                </button>
+
+                {isAccountOpen && (
+                  <div className="absolute right-0 mt-2 w-60 bg-dark-800 border border-dark-600 rounded-xl shadow-2xl overflow-hidden animate-fade-in">
+                    <div className="px-4 py-3 border-b border-dark-600">
+                      <p className="text-sm font-semibold text-white truncate">
+                        {user.name || user.username}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        @{user.username}
+                        {user.role === "admin" ? " · Admin" : ""}
+                      </p>
+                    </div>
+
+                    {user.role === "admin" && (
+                      <a
+                        href="admin.html"
+                        target="_self"
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                      >
+                        <Icon name="film" size={16} />
+                        Admin Dashboard
+                      </a>
+                    )}
+
+                    <button
+                      onClick={() => {
+                        setIsAccountOpen(false);
+                        onSignOut();
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:text-accent-red hover:bg-accent-red/10 transition-colors"
+                    >
+                      <Icon name="x" size={16} />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={onSignIn}
+                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
+              >
+                <Icon name="user" size={16} />
+                Sign In
+              </button>
+            )}
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -1237,6 +2032,47 @@ const Navbar = ({
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-dark-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-accent-red/50"
               />
+            </div>
+            <div className="mt-3 px-4">
+              {user ? (
+                <div className="flex flex-col gap-2">
+                  <p className="text-sm text-gray-400">
+                    Signed in as{" "}
+                    <span className="font-semibold text-white">
+                      {user.name || user.username}
+                    </span>
+                  </p>
+                  {user.role === "admin" && (
+                    <a
+                      href="admin.html"
+                      target="_self"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="px-4 py-2.5 rounded-lg bg-white/10 text-sm font-semibold text-white text-center hover:bg-white/20 transition-colors"
+                    >
+                      Admin Dashboard
+                    </a>
+                  )}
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      onSignOut();
+                    }}
+                    className="px-4 py-2.5 rounded-lg bg-accent-red/15 text-sm font-semibold text-accent-red hover:bg-accent-red/25 transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    onSignIn();
+                  }}
+                  className="w-full px-4 py-2.5 rounded-lg bg-white/10 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
+                >
+                  Sign In
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -1831,13 +2667,184 @@ const Footer = () => (
           </div>
           <span className="text-sm font-bold text-white">StreamVault</span>
         </div>
-        <p className="text-gray-600 text-xs">
-          © 2024 StreamVault. All rights reserved. This is a demo application.
-        </p>
+        <div className="flex items-center gap-4">
+          <a
+            href="login.html"
+            target="_self"
+            className="text-gray-600 hover:text-gray-300 text-xs transition-colors"
+          >
+            Admin
+          </a>
+          <p className="text-gray-600 text-xs">
+            © 2024 StreamVault. All rights reserved. This is a demo application.
+          </p>
+        </div>
       </div>
     </div>
   </footer>
 );
+
+// ─── AUTH MODAL ─────────────────────────────────────────────
+const AuthModal = ({ onClose, onSuccess }) => {
+  const [mode, setMode] = useState("signin");
+  const [form, setForm] = useState({ username: "", password: "", name: "" });
+  const [error, setError] = useState("");
+  const isSignIn = mode === "signin";
+
+  const setField = (key) => (event) =>
+    setForm((prev) => ({ ...prev, [key]: event.target.value }));
+
+  const switchMode = (next) => {
+    setMode(next);
+    setError("");
+  };
+
+  const submit = (event) => {
+    event.preventDefault();
+    setError("");
+
+    if (!window.SV_AUTH) {
+      setError("Auth service failed to load. Refresh the page.");
+      return;
+    }
+
+    const result = isSignIn
+      ? SV_AUTH.login(form.username, form.password)
+      : SV_AUTH.register(form.username, form.password, form.name);
+
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
+    onSuccess(result.user);
+    onClose();
+  };
+
+  const fieldClass =
+    "w-full bg-dark-700 border border-dark-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-accent-red focus:ring-2 focus:ring-accent-red/20 transition placeholder-gray-600";
+  const labelClass =
+    "block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1.5";
+
+  return (
+    <div
+      className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="bg-dark-800 border border-dark-600 rounded-2xl w-full max-w-md p-7 animate-scale-in"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-start justify-between mb-5">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-8 h-8 bg-gradient-to-br from-accent-red to-accent-pink rounded-lg flex items-center justify-center">
+                <Icon name="film" size={18} className="text-white" />
+              </div>
+              <span className="text-lg font-bold">
+                Stream<span className="text-accent-red">Vault</span>
+              </span>
+            </div>
+            <p className="text-gray-500 text-sm">
+              {isSignIn
+                ? "Sign in to your account"
+                : "Create an account to get started"}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-lg text-gray-500 hover:text-white hover:bg-dark-700 transition-colors"
+            aria-label="Close"
+          >
+            <Icon name="x" size={18} />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-1 p-1 bg-dark-700 rounded-xl mb-5">
+          {[
+            ["signin", "Sign In"],
+            ["register", "Create Account"],
+          ].map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => switchMode(key)}
+              className={`py-2 rounded-lg text-sm font-semibold transition-colors ${
+                mode === key
+                  ? "bg-dark-800 text-white shadow"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={submit} className="space-y-4">
+          {!isSignIn && (
+            <div>
+              <label className={labelClass}>Display name</label>
+              <input
+                className={fieldClass}
+                placeholder="Your name"
+                value={form.name}
+                onChange={setField("name")}
+                autoComplete="name"
+              />
+            </div>
+          )}
+
+          <div>
+            <label className={labelClass}>Username</label>
+            <input
+              className={fieldClass}
+              placeholder="Enter your username"
+              value={form.username}
+              onChange={setField("username")}
+              autoComplete="username"
+              required
+            />
+          </div>
+
+          <div>
+            <label className={labelClass}>Password</label>
+            <input
+              type="password"
+              className={fieldClass}
+              placeholder={
+                isSignIn ? "Enter your password" : "At least 6 characters"
+              }
+              value={form.password}
+              onChange={setField("password")}
+              autoComplete={isSignIn ? "current-password" : "new-password"}
+              required
+            />
+          </div>
+
+          {error && (
+            <p className="bg-accent-red/10 border border-accent-red/30 text-accent-red text-sm rounded-xl px-4 py-2.5">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="w-full bg-accent-red hover:bg-red-700 active:scale-[0.98] transition rounded-xl py-3 font-semibold text-sm shadow-lg shadow-accent-red/20"
+          >
+            {isSignIn ? "Sign In" : "Create Account"}
+          </button>
+        </form>
+
+        {isSignIn && (
+          <p className="mt-4 text-center text-xs text-gray-600">
+            Admin demo — <span className="text-gray-400">admin</span> /{" "}
+            <span className="text-gray-400">streamvault123</span>
+          </p>
+        )}
+      </div>
+    </div>
+  );
+};
 
 // ─── MAIN APP ───────────────────────────────────────────────
 const App = () => {
@@ -1847,6 +2854,11 @@ const App = () => {
   const [activeGenre, setActiveGenre] = useState("All");
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [playingMovie, setPlayingMovie] = useState(null);
+  const [movies, setMovies] = useState(() => moviesData);
+  const [user, setUser] = useState(() =>
+    window.SV_AUTH ? window.SV_AUTH.getUser() : null,
+  );
+  const [authOpen, setAuthOpen] = useState(false);
   const [watchlist, setWatchlist] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem("watchlist")) || [];
@@ -1865,6 +2877,39 @@ const App = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Keep the auth state in sync with login/logout from other tabs.
+  useEffect(() => {
+    if (!window.SV_AUTH) return;
+    return window.SV_AUTH.onChange(setUser);
+  }, []);
+
+  // Pick up movie changes made in the admin dashboard (other tab/window).
+  useEffect(() => {
+    const syncMovies = () => {
+      try {
+        const stored = JSON.parse(localStorage.getItem("sv_movies") || "null");
+        if (Array.isArray(stored) && stored.length) {
+          moviesData = stored;
+          setMovies(stored);
+        }
+      } catch (e) {}
+    };
+    const handleStorage = (event) => {
+      if (!event.key || event.key === "sv_movies") syncMovies();
+    };
+    window.addEventListener("storage", handleStorage);
+    window.addEventListener("focus", syncMovies);
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("focus", syncMovies);
+    };
+  }, []);
+
+  const handleSignOut = useCallback(() => {
+    if (window.SV_AUTH) window.SV_AUTH.logout();
+    setUser(null);
+  }, []);
+
   const toggleWatchlist = useCallback((id) => {
     setWatchlist((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
@@ -1878,14 +2923,16 @@ const App = () => {
 
   // Memoize filtering logic to prevent expensive recalculations on every render
   const filteredMovies = useMemo(() => {
-    return moviesData.filter((m) => {
+    return movies.filter((m) => {
       const searchLower = searchQuery.toLowerCase();
       // Expanded search to include director and cast for a better user experience
       const matchesSearch =
         m.title.toLowerCase().includes(searchLower) ||
         m.genre.toLowerCase().includes(searchLower) ||
-        m.director.toLowerCase().includes(searchLower) ||
-        m.cast.some((actor) => actor.toLowerCase().includes(searchLower));
+        (m.director || "").toLowerCase().includes(searchLower) ||
+        (m.cast || []).some((actor) =>
+          actor.toLowerCase().includes(searchLower),
+        );
 
       // Improved genre matching to handle multiple genres in one string (e.g., "Action / Drama")
       const matchesGenre =
@@ -1905,7 +2952,7 @@ const App = () => {
       // Default for 'home' and 'movies' tabs
       return matchesSearch && matchesGenre;
     });
-  }, [searchQuery, activeGenre, activeTab, watchlist]);
+  }, [movies, searchQuery, activeGenre, activeTab, watchlist]);
 
   // Memoize derived lists so they only recalculate when filteredMovies changes
   const trendingMovies = useMemo(
@@ -1932,8 +2979,12 @@ const App = () => {
     () => filteredMovies.filter((m) => m.genre.includes("Sci-Fi")),
     [filteredMovies],
   );
+  const horrorMovies = useMemo(
+    () => filteredMovies.filter((m) => m.genre.includes("Horror")),
+    [filteredMovies],
+  );
 
-  const heroMovie = moviesData[0];
+  const heroMovie = movies[0];
 
   // Memoize handlers to prevent re-rendering of child components that receive them as props
   const handleMovieClick = useCallback((movie) => setSelectedMovie(movie), []);
@@ -1950,6 +3001,9 @@ const App = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         scrollY={scrollY}
+        user={user}
+        onSignIn={() => setAuthOpen(true)}
+        onSignOut={handleSignOut}
       />
 
       {activeTab === "home" && !searchQuery && (
@@ -2077,6 +3131,13 @@ const App = () => {
             onToggleWatchlist={toggleWatchlist}
             watchlist={watchlist}
           />
+          <MovieRow
+            title="Horror"
+            movies={horrorMovies}
+            onMovieClick={handleMovieClick}
+            onToggleWatchlist={toggleWatchlist}
+            watchlist={watchlist}
+          />
         </>
       )}
 
@@ -2089,7 +3150,7 @@ const App = () => {
           onToggleWatchlist={toggleWatchlist}
           isInWatchlist={isInWatchlist(selectedMovie.id)}
           onWatchNow={handleWatchNow}
-          relatedMovies={moviesData.filter(
+          relatedMovies={movies.filter(
             (m) =>
               m.genre === selectedMovie.genre ||
               m.category === selectedMovie.category,
@@ -2101,9 +3162,17 @@ const App = () => {
       {playingMovie && (
         <VideoPlayer movie={playingMovie} onClose={handleClosePlayer} />
       )}
+
+      {authOpen && (
+        <AuthModal
+          onClose={() => setAuthOpen(false)}
+          onSuccess={(nextUser) => setUser(nextUser)}
+        />
+      )}
     </div>
   );
 };
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
